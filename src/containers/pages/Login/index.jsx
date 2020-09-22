@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { actionUserName } from '../../../config/redux/action';
 
 class Login extends Component {
+  changeUser = () => {
+    this.props.changeUserName();
+  };
+
   render() {
-    console.log(this.props);
     return (
       <div className="login">
-        <p>Login Page</p>
-        <button type="submit">Go to Register</button>
+        <p>Login Page {this.props.userName}</p>
+        <button onClick={this.changeUser} type="submit">
+          Change User Name
+        </button>
         <button type="submit">Go to Dashboard</button>
       </div>
     );
@@ -16,6 +22,11 @@ class Login extends Component {
 
 const reduxState = (state) => ({
   popup: state.popup,
+  userName: state.user,
 });
 
-export default connect(reduxState)(Login);
+const reduxDispatch = (dispatch) => ({
+  changeUserName: () => dispatch(actionUserName()),
+});
+
+export default connect(reduxState, reduxDispatch)(Login);
