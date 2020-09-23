@@ -24,4 +24,21 @@ const registerUserAPI = (data) => (dispatch) => {
     });
 };
 
-export { actionUserName, registerUserAPI };
+const loginUserAPI = (data) => (dispatch) => {
+  dispatch({ type: 'CHANGE_LOADING', value: true });
+  return firebase
+    .auth()
+    .signInWithEmailAndPassword(data.email, data.password)
+    .then((respon) => {
+      console.log(respon);
+      dispatch({ type: 'CHANGE_LOADING', value: false });
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      dispatch({ type: 'CHANGE_LOADING', value: false });
+    });
+};
+
+export { actionUserName, registerUserAPI, loginUserAPI };
